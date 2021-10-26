@@ -1,26 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './styles/App.scss';
+import { useAppDispatch, useAppSelector } from './store/hooks';
+import { getVotes } from './store/reducers/vote/ActionCreators';
+import Header from "./components/header/Header";
+import { useEffect } from 'react';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const dispatch = useAppDispatch();
+	const voteData = useAppSelector((state) => state.vote);
+
+	useEffect(() => {
+		dispatch(getVotes());
+	}, ["dispatch"])
+
+	return (
+	<div className="App">
+			<Header/>
+			<div>
+				{JSON.stringify(voteData.votes, null, 2)}
+			</div>
+	</div>
+	);
 }
 
 export default App;
